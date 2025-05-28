@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Petualangan Kegiatan Ekonomi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    .question {
+      font-size: 1.2rem;
+      margin: 20px 0;
+    }
+
+    .choices button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .choices button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      font-size: 1.3rem;
+      margin-top: 25px;
+    }
+
+    button#start-btn {
+      background-color: green;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .question {
+        font-size: 1rem;
+      }
+
+      .choices button {
+        font-size: 0.95rem;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="quiz-container">
+    <h1>Petualangan Kegiatan Ekonomi</h1>
+    <p>Yuk mulai kuis seru tentang kegiatan ekonomi!</p>
+    <button id="start-btn">Mulai Petualangan!</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "Ibu Sari membuat kue dan menjualnya ke pasar. Kegiatan ini disebut?",
+        choices: ["Konsumsi", "Distribusi", "Produksi", "Pembuangan"],
+        answer: 2
+      },
+      {
+        question: "Pak Budi mengantar barang dari pabrik ke toko. Ia melakukan kegiatan...",
+        choices: ["Produksi", "Konsumsi", "Distribusi", "Pengemasan"],
+        answer: 2
+      },
+      {
+        question: "Ani membeli makanan di warung. Ia melakukan kegiatan...",
+        choices: ["Produksi", "Distribusi", "Konsumsi", "Penjualan"],
+        answer: 2
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const container = document.getElementById('quiz-container');
+    const startBtn = document.getElementById('start-btn');
+
+    startBtn.addEventListener('click', showQuestion);
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      container.innerHTML = `
+        <h1>Soal ${currentQuestion + 1}</h1>
+        <div class="question">${q.question}</div>
+        <div class="choices">
+          ${q.choices.map((choice, index) => `
+            <button onclick="checkAnswer(${index})">${choice}</button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected) {
+      const isCorrect = selected === questions[currentQuestion].answer;
+      if (isCorrect) score++;
+
+      currentQuestion++;
+
+      if (currentQuestion < questions.length) {
+        setTimeout(showQuestion, 500);
+      } else {
+        container.innerHTML = `
+          <h1>Petualangan Selesai!</h1>
+          <p class="result">Skor kamu: ${score} dari ${questions.length}</p>
+          <p>${score === questions.length ? "Luar biasa! 🎉" : "Ayo coba lagi untuk hasil lebih baik!"}</p>
+          <button onclick="location.reload()">Main Lagi</button>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>
